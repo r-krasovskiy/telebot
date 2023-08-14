@@ -1,5 +1,5 @@
-import random
 
+import random
 import telebot
 
 token = '1636750747:AAHUpWHP7_V_2AoosLG6fF7zXBrsIO01lDY'
@@ -13,12 +13,13 @@ RANDOM_TASKS = ['Заняться портфелем активов', 'Учит�
 
 HELP = '''
 Список доступных команд:
-* /print  - напечать все задачи на заданную дату
+* /print  - вывести все задачи на заданную дату
 например: /print 2020-06-03
+*/print_all - вывести все задачи на все даты
 * /add - добавить задачу
 например: /add 2020-06-03 Записаться к стоматологу
-* /help - Напечатать help
 * /random - Добавить на сегодня случайную задачу
+* /help - Напечатать help
 
 '''
 
@@ -74,6 +75,22 @@ def print_tasks(message):
   else:
     text = 'Такой даты нет'
   bot.send_message(message.chat.id, text)
+
+
+@bot.message_handler(commands=["print_all"])
+def print_all(message):
+  #bot.send_message(message.chat.id, f'Все ваши задачи:', todos)
+  for item in todos.keys():
+    bot.send_message(message.chat.id, f'Сделать {item}:')
+  
+  for item in todos.values():
+    for i in item:
+      bot.send_message(message.chat.id, i)
+  
+
+
+
+
 
 
 @bot.message_handler(commands=["random"])
